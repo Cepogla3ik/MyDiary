@@ -10,6 +10,12 @@
     <script src="/functions.js" type="module" defer></script>
 </head>
 <body>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
+  
   <main>
     <div id="pageContainer">
       <div id="page_1">
@@ -190,4 +196,5 @@
   </nav>
 </body>
 </html>
+
 
