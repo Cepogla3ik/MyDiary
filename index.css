@@ -485,17 +485,18 @@ main {
   top: 50%;
   transform: translate(-100%, -50%);
   border-radius: 16px;
-  border: 2.5px solid rgb(160, 160, 160);
-  background: rgb(120, 120, 120);
+  border: 2.5px solid rgb(120, 120, 120);
+  background: rgb(160, 160, 160);
   font-weight: 550;
-  font-size: 15px
+  font-size: 15px;
+  color: rgb(80, 80, 80)
 }
 #page_2-hometask-save:active {
   background: rgb(140, 140, 140)
 }
 .page_2-hometask-subject {
   position: absolute;
-  left: 55px;
+  right: 15px;
   top: -2px;
   color: rgba(125, 90, 50, 0.75);
   user-select: none;
@@ -509,3 +510,59 @@ main {
   word-break: break-word;
   display: block;
 }
+#page_2-subjects-list-search {
+  width: 17.5%;
+  height: 75%;
+  position: absolute;
+  left: 77.5%;
+  top: 50%;
+  transform: translate(-100%, -50%);
+  border-radius: 16px;
+  border: 2.5px solid rgb(60, 130, 200);
+  background: rgb(90, 160, 230);
+  outline: none;
+  font-weight: 450;
+  font-size: 13px;
+  color: rgb(20, 60, 130)
+}
+#page_2-subjects-list-search::placeholder {
+  color: rgb(20, 60, 130);
+  opacity: 0.4
+}
+#page_2-subjects-list-container {
+  width: 140px;
+  height: 120px;
+  background: rgb(170, 180, 225);
+  border: 2.5px solid rgb(140, 150, 195);
+  border-radius: 10px;
+  position: absolute;
+  right: 35%;
+  top: calc(75% + 10px);
+  transform: translate(50%, 0);
+  z-index: 99999;
+  overflow-y: auto;
+  padding: 3.5px;
+  transition: opacity 0.35s, visibility 0.35s;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none
+}
+#page_2-function-buttons-container:has(#page_2-subjects-list-search:focus) #page_2-subjects-list-container {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto
+}
+.page_2-search-subjects {
+  width: 100%;
+  height: 30px;
+  border-radius: 4px;
+  background: rgb(130, 140, 175);
+  border: 1.5px solid rgb(90, 100, 135);
+  margin-bottom: 1px;
+  font-weight: 450;
+  font-size: 16px;
+  color: rgb(50, 60, 95)
+}
+.page_2-search-subjects:active {
+  background: rgb(110, 120, 155)
+  }
