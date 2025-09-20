@@ -206,6 +206,19 @@ function saveHometasksP2() {
 const p2HometaskSave = document.querySelector('#page_2-hometask-save');
 p2HometaskSave.onclick = () => {
   saveHometasksP2();
+  
+  if (p2HometaskSave.innerHTML !== '✓') {
+    p2HometaskSave.innerHTML = '✓';
+    p2HometaskSave.style.boxShadow = '0 0 12px 0.5px rgb(180, 180, 180)';
+    p2HometaskSave.style.border = '2.5px solid rgb(115, 125, 120)';
+    p2HometaskSave.style.background = 'rgb(145, 155, 150)';
+    setTimeout(() => {
+      p2HometaskSave.innerHTML = 'Save';
+      p2HometaskSave.style.boxShadow = 'none';
+      p2HometaskSave.style.border = '2.5px solid rgb(120, 120, 120)';
+      p2HometaskSave.style.background = 'rgb(160, 160, 160)';
+    }, 1500)
+  }
 }
 
 function updateP2Board() {
@@ -265,6 +278,12 @@ const reworkP2Subjects = () => {
     p2HometaskSubjects.forEach(hometask => hometask.innerHTML = '');
   }
 }
+
+const p2SubjectsListSearch = document.querySelector('#page_2-subjects-list-search');
+const p2SearchSubjects = document.querySelectorAll('.page_2-search-subjects');
+p2SearchSubjects.forEach(subject => {
+  // искать/фильтровать предмет в дз
+});
 
 
 setInterval(() => {
