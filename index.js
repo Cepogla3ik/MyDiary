@@ -116,12 +116,11 @@ reworkLessonsList();
 const pdfSubjectsSearchInput = document.querySelector('#pdf-subjects-search');
 const pdfSubjectsContainerElement = document.querySelector('#pdf-subjects-container');
 const pdfSubjectsElements = pdfSubjectsContainerElement.querySelectorAll('.pdf-subject');
-const searchPdfSubjectsInterval = () => {
+pdfSubjectsSearchInput.addEventListener('input', () => {
   pdfSubjectsElements.forEach(pdfSubject => {
     pdfSubject.style.display = pdfSubject.innerHTML.toLowerCase().includes(pdfSubjectsSearchInput.value.toLowerCase()) ? 'block' : 'none';
   });
-}
-searchPdfSubjectsInterval();
+});
 
 const showWeekDaysArray = [showMondayBoard, showTuesdayBoard, showWednesdayBoard, showThursdayBoard, showFridayBoard];
 if (thisDay >= 1 && thisDay <= 5) showWeekDaysArray[thisDay - 1]();
@@ -155,7 +154,7 @@ const p2DateHeader = document.querySelector('#page_2-date');
 const p2ArrowPreviousButton = document.querySelector('#page_2-header-button-previous-arrow');
 const p2ArrowNextButton = document.querySelector('#page_2-header-button-next-arrow');
 
-let dayP2HeaderCounting = thisDay % 7;
+let p2DayHeaderCounting = thisDay % 7;
 let p2DateHeaderCounting = now.getDate();
 let p2MonthHeaderCounting = thisMonth;
 let p2YearHeaderCounting = thisYear;
@@ -222,13 +221,13 @@ p2HometaskSave.onclick = () => {
 }
 
 function updateP2Board() {
-  p2WeekDayHeader.innerHTML = weekDaysArray[((dayP2HeaderCounting % 7) + 7) % 7];
+  p2WeekDayHeader.innerHTML = weekDaysArray[((p2DayHeaderCounting % 7) + 7) % 7];
   p2DateHeader.innerHTML = `(${String(p2DateHeaderCounting).padStart(2,'0')}.${String(p2MonthHeaderCounting + 1).padStart(2,'0')})`;
   loadHometasksP2();
 }
 
 p2ArrowNextButton.onclick = () => {
-  dayP2HeaderCounting++;
+  p2DayHeaderCounting++;
   p2DateHeaderCounting++;
   if (p2DateHeaderCounting > getMaxDaysInMonth(p2YearHeaderCounting, p2MonthHeaderCounting)) {
     p2DateHeaderCounting = 1;
@@ -242,7 +241,7 @@ p2ArrowNextButton.onclick = () => {
 }
 
 p2ArrowPreviousButton.onclick = () => {
-  dayP2HeaderCounting--;
+  p2DayHeaderCounting--;
   p2DateHeaderCounting--;
   if (p2DateHeaderCounting < 1) {
     p2MonthHeaderCounting--;
@@ -281,13 +280,56 @@ const reworkP2Subjects = () => {
 
 const p2SubjectsListSearch = document.querySelector('#page_2-subjects-list-search');
 const p2SearchSubjects = document.querySelectorAll('.page_2-search-subjects');
-p2SearchSubjects.forEach(subject => {
-  // искать/фильтровать предмет в дз
+p2SubjectsListSearch.addEventListener('input', () => {
+  p2SearchSubjects.forEach(subject => {
+    if (subject.innerHTML.toLowerCase().includes(p2SubjectsListSearch.value.toLowerCase())) {
+      subject.style.display = 'block';
+    } else {
+      subject.style.display = 'none';
+    }
+  });
 });
+
+p2SearchSubjects.forEach(searchedSubj => {
+  searchedSubj.addEventListener('click', () => {
+    const currentDayIndex = weekDaysArray.indexOf(p2WeekDayHeader.innerHTML); // индекс текущего дня в full week
+    const currentWorkDayIndex = currentDayIndex - 1; // рабочие дни пон-пят -> 0-4
+
+    let found = false;
+
+    for (let offset = 1; offset <= 5; offset++) { // проверяем следующие 5 рабочих дней
+      const checkDayIndex = (currentWorkDayIndex + offset) % 5; // индекс в weekdaysSubjectsArray
+      const subjectsArray = weekdaysSubjectsArray[checkDayIndex];
+
+      subjectsArray.forEach((lesson, lessonIndex) => {
+        if (!found && lesson === searchedSubj.innerHTML) {
+          const daysWarpInterval = offset; // сколько рабочих дней вперед нажать
+          for (let n = 0; n < daysWarpInterval; n++) {
+            p2ArrowNextButton.click();
+          }
+
+          console.log(`Lesson: ${lesson}\nDayIndex (0=Mon): ${checkDayIndex}\nLessonIndex: ${lessonIndex}\nDaysWarp: ${daysWarpInterval}`);
+          found = true;
+        }
+      });
+
+      if (found) break;
+    }
+  });
+});
+
+const p2TurnTodayButton = document.querySelector('#page_2-turn-today-button');
+p2TurnTodayButton.onclick = () => {
+  p2DayHeaderCounting = thisDay % 7;
+  p2DateHeaderCounting = now.getDate();
+  p2MonthHeaderCounting = thisMonth;
+  p2YearHeaderCounting = thisYear;
+  p2WeekDayHeader.innerHTML = weekDaysArray[now.getDay()];
+  p2DateHeader.innerHTML = `(${String(p2DateHeaderCounting).padStart(2,'0')}.${String(p2MonthHeaderCounting + 1).padStart(2,'0')})`;
+}
 
 
 setInterval(() => {
     reworkLessonsList();
-    searchPdfSubjectsInterval();
     reworkP2Subjects();
 }, 100);
