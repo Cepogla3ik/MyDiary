@@ -30,13 +30,13 @@ showBoardDaysButtons.forEach(button => {
 
 let now = new Date();
 let nowMinutes = now.getHours() * 60 + now.getMinutes();
-let thisDay = now.getDay();
+let thisDayIndex = now.getDay();
 
 const weekDaysArray = ['Неділя', 'Понеділок', 'Вівторок', 'Середа', 'Четвер', "П'ятниця", 'Субота'];
 
 const weekDayElements = document.querySelectorAll('.week-day');
 weekDayElements.forEach(weekDay => {
-  if (weekDay.innerHTML === weekDaysArray[thisDay]) {
+  if (weekDay.innerHTML === weekDaysArray[thisDayIndex]) {
     weekDay.scrollIntoView({
       behavior: 'smooth',
       inline: 'center',
@@ -46,71 +46,87 @@ weekDayElements.forEach(weekDay => {
 });
 
 const reworkLessonsList = () => {
-    now = new Date();
-    nowMinutes = now.getHours() * 60 + now.getMinutes();
-    thisDay = now.getDay();
+  now = new Date();
+  nowMinutes = now.getHours() * 60 + now.getMinutes();
+  thisDayIndex = now.getDay();
 
-    lessonsListElements.forEach(lesList => {
-        const lessonTime = lesList.querySelector('.lessons-list-time').innerHTML;
-        const lessonStart = getTimeToMinutesConvert(lessonTime);
+  lessonsListElements.forEach(lesList => {
+    const lessonTime = lesList.querySelector('.lessons-list-time').innerHTML;
+    const lessonStart = getTimeToMinutesConvert(lessonTime);
 
-        if (nowMinutes >= lessonStart && nowMinutes < lessonStart + 45) {
-            lesList.classList.add('current-lesson');
-            lesList.querySelector('.lessons-list-index').classList.add('current-lesson-data');
-            lesList.querySelector('.lessons-list-name').classList.add('current-lesson-data');
-            lesList.querySelector('.lessons-list-time').classList.add('current-lesson-data');
-            lesList.querySelector('.lessons-list-classroom').classList.add('current-lesson-data');
-        } else {
-            lesList.classList.remove('current-lesson');
-            lesList.querySelector('.lessons-list-index').classList.remove('current-lesson-data');
-            lesList.querySelector('.lessons-list-name').classList.remove('current-lesson-data');
-            lesList.querySelector('.lessons-list-time').classList.remove('current-lesson-data');
-            lesList.querySelector('.lessons-list-classroom').classList.remove('current-lesson-data');
-        }
+    if (boardHeaderElement.innerHTML !== weekDaysArray[thisDayIndex]) {
+        lesList.classList.add('foreign-lesson');
+        lesList.querySelector('.lessons-list-index').classList.add('foreign-lesson-data');
+        lesList.querySelector('.lessons-list-name').classList.add('foreign-lesson-data');
+        lesList.querySelector('.lessons-list-time').classList.add('foreign-lesson-data');
+        lesList.querySelector('.lessons-list-classroom').classList.add('foreign-lesson-data');
+        return;
+    } else {
+        lesList.classList.remove('foreign-lesson');
+        lesList.querySelector('.lessons-list-index').classList.remove('foreign-lesson-data');
+        lesList.querySelector('.lessons-list-name').classList.remove('foreign-lesson-data');
+        lesList.querySelector('.lessons-list-time').classList.remove('foreign-lesson-data');
+        lesList.querySelector('.lessons-list-classroom').classList.remove('foreign-lesson-data');
+    }
 
-        if (nowMinutes >= lessonStart - 10 && nowMinutes < lessonStart) {
-            lesList.classList.add('next-lesson');
-            lesList.querySelector('.lessons-list-index').classList.add('next-lesson-data');
-            lesList.querySelector('.lessons-list-name').classList.add('next-lesson-data');
-            lesList.querySelector('.lessons-list-time').classList.add('next-lesson-data');
-            lesList.querySelector('.lessons-list-classroom').classList.add('next-lesson-data');
-        } else {
-            lesList.classList.remove('next-lesson');
-            lesList.querySelector('.lessons-list-index').classList.remove('next-lesson-data');
-            lesList.querySelector('.lessons-list-name').classList.remove('next-lesson-data');
-            lesList.querySelector('.lessons-list-time').classList.remove('next-lesson-data');
-            lesList.querySelector('.lessons-list-classroom').classList.remove('next-lesson-data');
-        }
+    if (nowMinutes >= lessonStart && nowMinutes < lessonStart + 45) {
+        lesList.classList.add('current-lesson');
+        lesList.querySelector('.lessons-list-index').classList.add('current-lesson-data');
+        lesList.querySelector('.lessons-list-name').classList.add('current-lesson-data');
+        lesList.querySelector('.lessons-list-time').classList.add('current-lesson-data');
+        lesList.querySelector('.lessons-list-classroom').classList.add('current-lesson-data');
+    } else {
+        lesList.classList.remove('current-lesson');
+        lesList.querySelector('.lessons-list-index').classList.remove('current-lesson-data');
+        lesList.querySelector('.lessons-list-name').classList.remove('current-lesson-data');
+        lesList.querySelector('.lessons-list-time').classList.remove('current-lesson-data');
+        lesList.querySelector('.lessons-list-classroom').classList.remove('current-lesson-data');
+    }
 
-        if (nowMinutes > lessonStart + 30 && nowMinutes < lessonStart + 45) {
-            lesList.classList.add('almost-ended-lesson');
-            lesList.querySelector('.lessons-list-index').classList.add('almost-ended-lesson-data');
-            lesList.querySelector('.lessons-list-name').classList.add('almost-ended-lesson-data');
-            lesList.querySelector('.lessons-list-time').classList.add('almost-ended-lesson-data');
-            lesList.querySelector('.lessons-list-classroom').classList.add('almost-ended-lesson-data');
-        } else {
-            lesList.classList.remove('almost-ended-lesson');
-            lesList.querySelector('.lessons-list-index').classList.remove('almost-ended-lesson-data');
-            lesList.querySelector('.lessons-list-name').classList.remove('almost-ended-lesson-data');
-            lesList.querySelector('.lessons-list-time').classList.remove('almost-ended-lesson-data');
-            lesList.querySelector('.lessons-list-classroom').classList.remove('almost-ended-lesson-data');
-        }
+    if (nowMinutes >= lessonStart - 10 && nowMinutes < lessonStart) {
+        lesList.classList.add('next-lesson');
+        lesList.querySelector('.lessons-list-index').classList.add('next-lesson-data');
+        lesList.querySelector('.lessons-list-name').classList.add('next-lesson-data');
+        lesList.querySelector('.lessons-list-time').classList.add('next-lesson-data');
+        lesList.querySelector('.lessons-list-classroom').classList.add('next-lesson-data');
+    } else {
+        lesList.classList.remove('next-lesson');
+        lesList.querySelector('.lessons-list-index').classList.remove('next-lesson-data');
+        lesList.querySelector('.lessons-list-name').classList.remove('next-lesson-data');
+        lesList.querySelector('.lessons-list-time').classList.remove('next-lesson-data');
+        lesList.querySelector('.lessons-list-classroom').classList.remove('next-lesson-data');
+    }
 
-        if (nowMinutes >= lessonStart + 45 || ([0, 6].includes(thisDay)) || boardHeaderElement.innerHTML !== weekDaysArray[thisDay]) {
-            lesList.classList.add('is-over-lesson');
-            lesList.querySelector('.lessons-list-index').classList.add('is-over-lesson-data');
-            lesList.querySelector('.lessons-list-name').classList.add('is-over-lesson-data');
-            lesList.querySelector('.lessons-list-time').classList.add('is-over-lesson-data');
-            lesList.querySelector('.lessons-list-classroom').classList.add('is-over-lesson-data');
-        } else {
-            lesList.classList.remove('is-over-lesson');
-            lesList.querySelector('.lessons-list-index').classList.remove('is-over-lesson-data');
-            lesList.querySelector('.lessons-list-name').classList.remove('is-over-lesson-data');
-            lesList.querySelector('.lessons-list-time').classList.remove('is-over-lesson-data');
-            lesList.querySelector('.lessons-list-classroom').classList.remove('is-over-lesson-data');
-        }
-    });
-}
+    if (nowMinutes > lessonStart + 30 && nowMinutes < lessonStart + 45) {
+        lesList.classList.add('almost-ended-lesson');
+        lesList.querySelector('.lessons-list-index').classList.add('almost-ended-lesson-data');
+        lesList.querySelector('.lessons-list-name').classList.add('almost-ended-lesson-data');
+        lesList.querySelector('.lessons-list-time').classList.add('almost-ended-lesson-data');
+        lesList.querySelector('.lessons-list-classroom').classList.add('almost-ended-lesson-data');
+    } else {
+        lesList.classList.remove('almost-ended-lesson');
+        lesList.querySelector('.lessons-list-index').classList.remove('almost-ended-lesson-data');
+        lesList.querySelector('.lessons-list-name').classList.remove('almost-ended-lesson-data');
+        lesList.querySelector('.lessons-list-time').classList.remove('almost-ended-lesson-data');
+        lesList.querySelector('.lessons-list-classroom').classList.remove('almost-ended-lesson-data');
+    }
+
+    if (nowMinutes >= lessonStart + 45 || [0, 6].includes(thisDayIndex)) {
+        lesList.classList.add('is-over-lesson');
+        lesList.querySelector('.lessons-list-index').classList.add('is-over-lesson-data');
+        lesList.querySelector('.lessons-list-name').classList.add('is-over-lesson-data');
+        lesList.querySelector('.lessons-list-time').classList.add('is-over-lesson-data');
+        lesList.querySelector('.lessons-list-classroom').classList.add('is-over-lesson-data');
+    } else {
+        lesList.classList.remove('is-over-lesson');
+        lesList.querySelector('.lessons-list-index').classList.remove('is-over-lesson-data');
+        lesList.querySelector('.lessons-list-name').classList.remove('is-over-lesson-data');
+        lesList.querySelector('.lessons-list-time').classList.remove('is-over-lesson-data');
+        lesList.querySelector('.lessons-list-classroom').classList.remove('is-over-lesson-data');
+    }
+  });
+};
+
 reworkLessonsList();
 
 const pdfSubjectsSearchInput = document.querySelector('#pdf-subjects-search');
@@ -123,7 +139,7 @@ pdfSubjectsSearchInput.addEventListener('input', () => {
 });
 
 const showWeekDaysArray = [showMondayBoard, showTuesdayBoard, showWednesdayBoard, showThursdayBoard, showFridayBoard];
-if (thisDay >= 1 && thisDay <= 5) showWeekDaysArray[thisDay - 1]();
+if (thisDayIndex >= 1 && thisDayIndex <= 5) showWeekDaysArray[thisDayIndex - 1]();
 
 const page_1Element = document.querySelector('#page_1');
 const page_2Element = document.querySelector('#page_2');
@@ -154,7 +170,7 @@ const p2DateHeader = document.querySelector('#page_2-date');
 const p2ArrowPreviousButton = document.querySelector('#page_2-header-button-previous-arrow');
 const p2ArrowNextButton = document.querySelector('#page_2-header-button-next-arrow');
 
-let p2DayHeaderCounting = thisDay % 7;
+let p2DayHeaderCounting = thisDayIndex % 7;
 let p2DateHeaderCounting = now.getDate();
 let p2MonthHeaderCounting = thisMonth;
 let p2YearHeaderCounting = thisYear;
@@ -255,7 +271,7 @@ p2ArrowPreviousButton.onclick = () => {
 }
 updateP2Board();
 
-const todaysDay = weekDaysArray[thisDay];
+const todaysDay = weekDaysArray[thisDayIndex];
 const p2HometaskSubjects = document.querySelectorAll('.page_2-hometask-subject');
 const weekdaysSubjectsArray = [
   mondaySubjectsArray,
@@ -320,12 +336,13 @@ p2SearchSubjects.forEach(searchedSubj => {
 
 const p2TurnTodayButton = document.querySelector('#page_2-turn-today-button');
 p2TurnTodayButton.onclick = () => {
-  p2DayHeaderCounting = thisDay % 7;
+  p2DayHeaderCounting = thisDayIndex % 7;
   p2DateHeaderCounting = now.getDate();
   p2MonthHeaderCounting = thisMonth;
   p2YearHeaderCounting = thisYear;
   p2WeekDayHeader.innerHTML = weekDaysArray[now.getDay()];
   p2DateHeader.innerHTML = `(${String(p2DateHeaderCounting).padStart(2,'0')}.${String(p2MonthHeaderCounting + 1).padStart(2,'0')})`;
+  loadHometasksP2();
 }
 
 
