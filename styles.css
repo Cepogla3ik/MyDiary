@@ -44,19 +44,19 @@ nav {
   background: transparent;
 }
 #navFunctionsContainer > .nav-functions:first-child > .nav-buttons {
-  background-image: url("Folders/png_jpeg/schedule-icon.jpeg");
+  background-image: url("schedule-icon.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 #navFunctionsContainer > .nav-functions:nth-child(2) > .nav-buttons {
-  background-image: url("Folders/png_jpeg/diary-icon.jpeg");
+  background-image: url("diary-icon.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 #navFunctionsContainer > .nav-functions:last-child > .nav-buttons {
-  background-image: url("Folders/png_jpeg/textbooks-icon.jpeg");
+  background-image: url("textbooks-icon.jpeg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -616,3 +616,4 @@ main {
 #page_2-turn-today-button:active {
   background: rgb(0, 225, 200)
 }
+
